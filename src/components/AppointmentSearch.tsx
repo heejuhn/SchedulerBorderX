@@ -21,9 +21,14 @@ const AppointmentSearch: React.FC<AppointmentSearchProps> = ({ appointments }) =
 
   const filteredAppointments = appointments.filter(appointment => {
     const searchValue = searchTerm.toLowerCase();
-    return searchType === 'email' 
-      ? appointment.email.toLowerCase().includes(searchValue)
-      : appointment.phone.includes(searchValue);
+    return (
+      appointment.name.toLowerCase().includes(searchValue.trim()) ||
+      appointment.email.toLowerCase().includes(searchValue.trim()) ||
+      appointment.phone.includes(searchValue) ||
+      appointment.date.includes(searchValue) ||
+      appointment.time.includes(searchValue) ||
+      appointment.notes?.toLowerCase().includes(searchValue)
+    );
   });
 
   return (
@@ -40,20 +45,12 @@ const AppointmentSearch: React.FC<AppointmentSearchProps> = ({ appointments }) =
             <div className="flex-1">
               <input
                 type="text"
-                placeholder={`Search by ${searchType}...`}
+                placeholder={`Search by anything...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <select
-              value={searchType}
-              onChange={(e) => setSearchType(e.target.value as 'email' | 'phone')}
-              className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="email">Email</option>
-              <option value="phone">Phone</option>
-            </select>
           </div>
           
           {searchTerm && (
