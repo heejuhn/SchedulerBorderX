@@ -17,7 +17,6 @@ interface AppointmentSearchProps {
 
 const AppointmentSearch: React.FC<AppointmentSearchProps> = ({ appointments }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState<'email' | 'phone'>('email');
 
   const filteredAppointments = appointments.filter(appointment => {
     const searchValue = searchTerm.toLowerCase();
